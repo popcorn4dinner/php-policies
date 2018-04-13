@@ -1,7 +1,6 @@
 <?php
 
-namespace StepStone\SeedCommons\Policies;
-
+namespace Popcorn4dinner\Policies;
 
 use Esky\Enum\Enum;
 

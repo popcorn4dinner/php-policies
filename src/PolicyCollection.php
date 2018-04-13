@@ -1,7 +1,6 @@
 <?php
 
-namespace StepStone\SeedCommons\Policies;
-
+namespace Popcorn4dinner\Policies;
 
 use Esky\Enum\Enum;
 
@@ -13,7 +12,8 @@ class PolicyCollection implements PolicyInterface
      */
     private $policies;
 
-    public function __construct(PolicyInterface ...$policies) {
+    public function __construct(PolicyInterface ...$policies)
+    {
         $this->policies = $policies;
     }
 
@@ -33,10 +33,9 @@ class PolicyCollection implements PolicyInterface
     {
         $violations = [];
 
-        foreach ($this->policies as $policy){
+        foreach ($this->policies as $policy) {
             try {
                 $policy->applyFor($subject, $action);
-
             } catch (PolicyValidationException $exception) {
                 $violations[]= $exception->getMessage();
             }

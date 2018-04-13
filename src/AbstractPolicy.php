@@ -1,7 +1,6 @@
 <?php
 
-namespace StepStone\SeedCommons\Policies;
-
+namespace Popcorn4dinner\Policies;
 
 use Esky\Enum\Enum;
 
@@ -53,8 +52,8 @@ abstract class AbstractPolicy implements PolicyInterface
      * @param Enum $action
      * @return bool
      */
-    protected function shouldBeApplied(Enum $action){
+    protected function shouldBeApplied(Enum $action)
+    {
         return !in_array($action, $this->excludedActions);
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 
-namespace StepStone\SeedCommons\Policies;
-
+namespace Popcorn4dinner\Policies;
 
 use Throwable;
 
@@ -15,6 +14,6 @@ class PolicyValidationException extends \Exception
      */
     public function __construct($message = "", $code = 400, Throwable $previous = null)
     {
-        parent::__construct( $message, $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 }
