@@ -189,8 +189,8 @@ class UserValidatorFactory
         return new BasicValidator(
             new EmailFormatPolicy(),
             new EmailUniquenessPolicy($userRepository),
-            new PasswordLengthPolicy(UserAction::REGISTER(), UserAction::ADMIN_UPDATE()),
-            new PasswordStrengthPolicy(UserAction::REGISTER(), UserAction::ADMIN_UPDATE())
+            new PasswordLengthPolicy(UserAction::ADMIN_UPDATE()),
+            new PasswordStrengthPolicy(UserAction::ADMIN_UPDATE())
         );
     }
 }
@@ -208,12 +208,10 @@ class UserValidatorFactory
     {
 
         $userPolicies = new PolicyCollection(
-            new PasswordLengthPolicy(
-                UserAction::REGISTER();
+            new PasswordLengthPolicy(UserAction::ADMIN_UPDATE());
 
-                use  UserAction::ADMIN_UPDATE()
-            ),
-            new PasswordStrengthPolicy(UserAction::REGISTER(), UserAction::ADMIN_UPDATE())
+            use
+            new PasswordStrengthPolicy(UserAction::ADMIN_UPDATE())
         )
 
         $universalPolicies = new PolicyCollection(
