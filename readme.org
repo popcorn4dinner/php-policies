@@ -209,8 +209,6 @@ class UserValidatorFactory
 
         $userPolicies = new PolicyCollection(
             new PasswordLengthPolicy(UserAction::ADMIN_UPDATE());
-
-            use
             new PasswordStrengthPolicy(UserAction::ADMIN_UPDATE())
         )
 
