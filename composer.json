@@ -23,13 +23,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Popcorn4dinner\\Collection\\": "src/"
+      "Popcorn4dinner\\Policies\\": "src/"
     }
   },
     "autoload-dev": {
       "psr-4": {
-        "Popcorn4dinner\\Collection\\Examples\\": "examples/",
-        "Popcorn4dinner\\Collection\\Tests\\": "tests/unit/"
+        "Popcorn4dinner\\Policies\\Examples\\": "examples/",
+        "Popcorn4dinner\\Policies\\Tests\\": "tests/unit/"
       }
     }
 }

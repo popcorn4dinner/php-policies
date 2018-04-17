@@ -1,2 +1,165 @@
 * PHP Policies
 A PHP library to easily model complex rules or policies for validations, access control, etc
+
+** installation
+#+BEGIN_SRC sh
+composer require popcorn4dinner/policies 
+#+END_SRC
+
+** usage
+example of validating an user
+*** creating policies
+**** email address must have the right format
+#+BEGIN_SRC php :tangle ./examples/Policies/EmailFormatPolicy.php
+<?php
+
+namespace Popcorn4dinner\Policies\Examples\Policies;
+
+use Popcorn4dinner\Policies\AbstractPolicy;
+use Popcorn4dinner\Policies\Examples\User;
+use Popcorn4dinner\Policies\Examples\UserAction;
+use Popcorn4dinner\Policies\Examples\UserRepositoryInterface;
+
+class EmailFormatPolicy extends AbstractPolicy
+{
+    protected const ERROR_MESSAGE = 'Invalid email address';
+
+    /**
+     * @param MvpUser $user
+     * @return bool
+     * @throws PolicyValidationException
+     */
+    protected function isViolatedWith(MvpUser $user, UserAction $action): bool
+    {
+        return $this->isInvalidEmail($user->getEmail());
+    }
+
+    /**
+     * @param string $email
+     * @return bool
+     *
+     */
+    private function isInvalidEmail(string $email): bool
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) === false;
+    }
+}
+#+END_SRC
+**** email address must be unique
+#+BEGIN_SRC php :tangle ./examples/Policies/EmailUniquenessPolicy.php
+<?php
+
+namespace Popcorn4dinner\Policies\Examples\Policies;
+
+use Popcorn4dinner\Policies\AbstractPolicy;
+use Popcorn4dinner\Policies\Examples\User;
+use Popcorn4dinner\Policies\Examples\UserAction;
+use Popcorn4dinner\Policies\Examples\UserRepositoryInterface;
+
+class EmailUniquenessPolicy extends AbstractPolicy
+{
+    protected const ERROR_MESSAGE = 'User with email already exists.';
+
+    /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    /**
+     * EmailPresencePolicy constructor.
+     * @param UserRepositoryInterface $userRepository
+     */
+    public function __construct(UserRepositoryInterface $userRepository, UserAction ...$excludedActions)
+    {
+        parent::__construct(...$excludedActions);
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * @param MvpUser $user
+     * @return bool
+     * @throws PolicyValidationException
+     */
+    protected function isViolatedWith(MvpUser $user, UserAction $action): bool
+    {
+        return !$this->isUniqueEmail($user->getEmail());
+    }
+
+    private function isUniqueEmail(string $email): bool
+    {
+        return $this->userRepository->findByEmail($email) === null;
+    }
+}
+#+END_SRC
+**** password must be longer then 8 characters
+#+BEGIN_SRC php :tangle ./examples/Policies/PasswordLengthPolicy.php
+<?php
+
+namespace Popcorn4dinner\Policies\Examples\Policies;
+
+use Popcorn4dinner\Policies\AbstractPolicy;
+use Popcorn4dinner\Policies\Examples\User;
+use Popcorn4dinner\Policies\Examples\UserAction;
+use Popcorn4dinner\Policies\Examples\UserRepositoryInterface;
+
+class PasswordLengthPolicy extends AbstractPolicy
+{
+    protected const ERROR_MESSAGE = 'Password not long enough.';
+
+    private const MIN_PASSWORD_LENGTH = 8;
+
+    /**
+     * @param MvpUser $user
+     * @return bool
+     * @throws PolicyValidationException
+     */
+    protected function isViolatedWith(MvpUser $user, UserAction $action): bool
+    {
+        return $this->isInvalidPassword($user->getPassword());
+    }
+
+    private function isInvalidPassword(string $password): bool
+    {
+        return strlen($password) < static::MIN_PASSWORD_LENGTH;
+    }
+}
+#+END_SRC
+**** password must be secure enough
+#+BEGIN_SRC php :tangle ./examples/Policies/PasswordLengthPolicy.phpolicy.php
+<?php
+
+namespace Popcorn4dinner\Policies\Examples\Policies;
+
+use Popcorn4dinner\Policies\AbstractPolicy;
+use Popcorn4dinner\Policies\Examples\User;
+use Popcorn4dinner\Policies\Examples\UserAction;
+use Popcorn4dinner\Policies\Examples\UserRepositoryInterface;
+
+class PasswordCharactersPolicy extends AbstractPolicy
+{
+    protected const ERROR_MESSAGE = 'Password not strong enough.';
+
+    private const NUMBER_IN_PASSWORD = '#[0-9]+#';
+    private const LOWERCASE_CHARACTERS = '#[a-z]+#';
+    private const UPPERCASE_CHARACTERS = '#[A-Z]+#';
+
+    /**
+     * @param MvpUser $user
+     * @return bool
+     * @throws PolicyValidationException
+     */
+    protected function isViolatedWith(MvpUser $user, UserAction $action): bool
+    {
+        return $this->isInvalidPassword($user->getPassword());
+    }
+
+    private function isInvalidPassword(string $password): bool
+    {
+        $includesNumber = preg_match(static::NUMBER_IN_PASSWORD, $password);
+        $includesUpperCaseCharacters = preg_match(static::UPPERCASE_CHARACTERS, $password);
+        $includesLowerCaseCharacters = preg_match(static::LOWERCASE_CHARACTERS, $password);
+
+        return !($includesNumber && $includesUpperCaseCharacters && $includesLowerCaseCharacters);
+    }
+}
+#+END_SRC
