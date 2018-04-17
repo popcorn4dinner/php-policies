@@ -6,8 +6,11 @@ A PHP library to easily model complex rules or policies for validations, access 
 composer require popcorn4dinner/policies 
 #+END_SRC
 
-** usage
-example of validating an user
+** Example: Validating a user
+1) define actions or events as an enum, here CREATE, REGISTER, UPDATE, DELETE and ADMIN_UPDATE
+2) create one policy for each of your business rules
+3) create a Validator to use your policies and define exceptions
+
 *** creating policies
 **** email address must have the right format
 #+BEGIN_SRC php :tangle ./examples/Policies/EmailFormatPolicy.php
