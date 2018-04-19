@@ -140,21 +140,21 @@ use Popcorn4dinner\Policies\Examples\UserRepositoryInterface;
 
 class PasswordCharactersPolicy extends AbstractPolicy
 {
-    protected const ERROR_MESSAGE = 'Password not strong enough.';
+protected const ERROR_MESSAGE = 'Password not strong enough.';
 
-    private const NUMBER_IN_PASSWORD = '#[0-9]+#';
-    private const LOWERCASE_CHARACTERS = '#[a-z]+#';
-    private const UPPERCASE_CHARACTERS = '#[A-Z]+#';
+private const NUMBER_IN_PASSWORD = '#[0-9]+#';
+private const LOWERCASE_CHARACTERS = '#[a-z]+#';
+private const UPPERCASE_CHARACTERS = '#[A-Z]+#';
 
     /**
      * @param MvpUser $user
      * @return bool
      * @throws PolicyValidationException
      */
-    protected function isViolatedWith(MvpUser $user, UserAction $action): bool
-    {
-        return $this->isInvalidPassword($user->getPassword());
-    }
+protected function isViolatedWith(MvpUser $user, UserAction $action): bool
+{
+    return $this->isInvalidPassword($user->getPassword());
+    
 
     private function isInvalidPassword(string $password): bool
     {
