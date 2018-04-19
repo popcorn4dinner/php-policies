@@ -1,8 +1,8 @@
 {
   "name": "popcorn4dinner/policies",
-  "description": "A flexible, simple to use and non-opinionated collection library",
+  "description": "easy to use, non-opinionated library to model complex rules for validations, access control, etc",
   "type": "library",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "config": {
     "preferred-install": "dist"
