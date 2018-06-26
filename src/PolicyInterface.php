@@ -11,5 +11,5 @@ interface PolicyInterface
      * @param Enum $action
      * @return bool
      */
-    public function applyFor($subject, Enum $action): bool;
+    public function applyFor($subject, $action = null): bool;
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace StepStone\UserGateway\UserManager\Domain\User;
+namespace Popcorn4dinner\Policies;
 
 use Esky\Enum;
 

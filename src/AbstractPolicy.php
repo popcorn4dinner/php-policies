@@ -24,10 +24,10 @@ abstract class AbstractPolicy implements PolicyInterface
 
     /**
      * @param $subject
+     * @param null $action
      * @return bool
-     * @throws PolicyValidationException
      */
-    abstract protected function isViolatedWith($subject, Enum $action): bool;
+    abstract protected function isViolatedWith($subject, $action = null): bool;
 
     /**
      * @param $subject
@@ -35,7 +35,7 @@ abstract class AbstractPolicy implements PolicyInterface
      * @return bool
      * @throws PolicyValidationException
      */
-    public function applyFor($subject, Enum $action): bool
+    public function applyFor($subject, $action = null): bool
     {
         if ($this->shouldBeApplied($action)) {
             if ($this->isViolatedWith($subject, $action)) {
@@ -52,7 +52,7 @@ abstract class AbstractPolicy implements PolicyInterface
      * @param Enum $action
      * @return bool
      */
-    protected function shouldBeApplied(Enum $action)
+    protected function shouldBeApplied($action)
     {
         return !in_array($action, $this->excludedActions);
     }

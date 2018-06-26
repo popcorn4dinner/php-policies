@@ -29,7 +29,7 @@ class PolicyCollection implements PolicyInterface
      * @throws PolicyValidationException
      */
 
-    public function applyFor($subject, Enum $action): bool
+    public function applyFor($subject, $action = null): bool
     {
         $violations = [];
 
